@@ -6,10 +6,7 @@ public class Factorial {
         if (i == 0 || i == 1){
             return 1;
         }
-        // Test case #2
-        if (i == 2) {
-            return 2;
-        }
-        return -1;
+        // Test case #2, 4
+        return i * compute(i - 1);
     }
 }
