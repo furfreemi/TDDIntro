@@ -3,11 +3,15 @@ package com.thoughtworks.tddintro.exercises.accountbalance;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 public class AccountTests {
     @Test
-    @Ignore  // Remove each @Ignore and implement test
     public void shouldIncreaseMyBalanceWhenIDepositMoney(){
-        Account account = new Account();
+        Account account = new Account(100);
+        account.deposit(50);
+        assertThat(account.balance(), is(150));
     }
 
     @Test
