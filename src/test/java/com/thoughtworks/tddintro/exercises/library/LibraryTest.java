@@ -43,10 +43,14 @@ public class LibraryTest {
     }
 
     @Test
-    @Ignore // Remove each @Ignore and implement test
     public void shouldPrintNothingWhenThereAreNoBooks() {
+        // don't add any books to the library list
 
-        // implement me
+        // call listBooks
+        library.listBooks();
+
+        // verify that empty string was printed out
+        verify(printStream).println("");
     }
 
     @Test
