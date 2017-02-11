@@ -1,8 +1,8 @@
 package com.thoughtworks.tddintro.exercises.library;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class LibraryTest {
         library.listBooks();
 
         // add a verify statement here that shows that the book title was printed by the printStream
-        verify(printStream).println(title + "\n");
+        verify(printStream).println(Mockito.contains(title));
     }
 
     @Test
@@ -53,6 +53,8 @@ public class LibraryTest {
         verify(printStream).println("");
     }
 
+    // This is redundant based on the next test but it was one given to us so I kept it
+    // Also wanted to try out calling verify multiple times across a single object/method call
     @Test
     public void shouldPrintBothBookTitlesWhenThereAreTwoBooks() throws IOException {
         // add two book titles
@@ -67,24 +69,48 @@ public class LibraryTest {
         library.listBooks();
 
         // verify that both titles were printed by stream
-        verify(printStream).println(title1 + "\n" + title2 + "\n");
+        verify(printStream).println(Mockito.contains(title1));
+        verify(printStream).println(Mockito.contains(title2));
     }
+
+
+    @Test
+    public void shouldPrintNewLineBetweenMultipleBookTitles() throws IOException {
+        // add two book titles
+        String title1 = "Title1";
+        books.add(title1);
+
+        String title2 = "Title2";
+        books.add(title2);
+
+
+        // print titles
+        library.listBooks();
+
+        // verify that both titles were printed by stream
+        verify(printStream).println(Mockito.contains(title1 + '\n' + title2));
+    }
+
+
 
     @Test
     public void shouldAddBookToCollectionWhenEnteredByUser() throws IOException {
         when(bufferedReader.readLine()).thenReturn("The Hobbit");
+
         library.enterBook();
+
         assertThat(books, hasItems("The Hobbit"));
     }
 
     @Test
     public void shouldDeleteBookFromCollectionWhenRemovedByUser() throws IOException {
         // Add when/thenReturn here: we want to test delete The Two Towers
-        when(bufferedReader.readLine()).thenReturn("The Two Towers");
+        String title = "The Two Towers";
+        when(bufferedReader.readLine()).thenReturn(title);
 
-        books.add("The Two Towers");
+        books.add(title);
         library.removeBook();
 
-        assertThat(books, not(hasItems("The Two Towers")));
+        assertThat(books, not(hasItems(title)));
     }
 }
