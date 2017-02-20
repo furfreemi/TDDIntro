@@ -3,10 +3,6 @@ package com.thoughtworks.tddintro.exercises.accountbalance;
 public class Account {
     private int balance;
 
-    public Account(){
-        this(0);
-    }
-
     public Account(int initialBalance) {
         this.balance = initialBalance;
     }
